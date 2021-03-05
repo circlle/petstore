@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: "helloworld"
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: '123456'
+      MYSQL_DATABASE: 'petstore'
+    ports:
+      - '3306:3306'
+    volumes:
+      - "db:/var/lib/mysql"
+
+  pet-server:
+    build:
+      context: .
+    depends_on:
+      - mysql
+    ports:
+    - '3000:3000'
+
+volumes:
+  db:
