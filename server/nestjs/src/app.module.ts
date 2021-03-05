@@ -1,18 +1,23 @@
-import {Module} from '@nestjs/common';
-import {TypeOrmModule} from '@nestjs/typeorm';
-import {Connection} from "typeorm";
-import {AppController} from './app.controller';
-import {UserModule} from './user/user.module';
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Connection } from 'typeorm';
+import { AppController } from './app.controller';
+import { UserModule } from './user/user.module';
+import credential from './credentials'
 
 @Module({
-    imports: [
-        TypeOrmModule.forRoot(),
-        UserModule
-    ],
-    controllers: [AppController],
-    providers: [],
+  imports: [
+    TypeOrmModule.forRoot({
+      ...credential,
+      type: 'mysql',
+      entities: ['dist/**/*.entity{.ts,.js}'],
+      synchronize: true,
+    }),
+    UserModule,
+  ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {
-    constructor(private connection: Connection) {
-    }
+  constructor(private connection: Connection) {}
 }
