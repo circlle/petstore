@@ -3,8 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './user.dto';
-// todo: fix jwt undefined error
-import jwt from 'jsonwebtoken';
+import { sign } from 'jsonwebtoken';
 import { SECRET } from '../../config';
 import { UserRO } from './user.interface';
 
@@ -40,7 +39,7 @@ export class UserService {
     const exp = new Date(today);
     exp.setDate(today.getDate() + 60);
 
-    return jwt.sign(
+    return sign(
       {
         id: user.id,
         username: user.username,

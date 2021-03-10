@@ -37,10 +37,4 @@ export class UserController {
 
     return _user;
   }
-
-  // for quick test
-  @Get('/getAll')
-  getAll(): Promise<User[]> {
-    return this.userService.findAll();
-  }
 }
