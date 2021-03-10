@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { AppController } from './app.controller';
 import { UserModule } from './user/user.module';
-import credential from './credentials'
+import credential from './credentials';
 
 @Module({
   imports: [
@@ -12,6 +12,7 @@ import credential from './credentials'
       type: 'mysql',
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
+      logging: true,
     }),
     UserModule,
   ],

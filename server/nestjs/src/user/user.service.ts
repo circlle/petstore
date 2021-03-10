@@ -20,7 +20,7 @@ export class UserService {
   }
 
   async create(user: CreateUserDto): Promise<User> {
-    return await this.userRepository.create(user)
+    return this.userRepository.save(user);
   }
 
   async remove(id: string): Promise<void> {
