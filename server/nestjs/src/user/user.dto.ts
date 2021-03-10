@@ -11,3 +11,11 @@ export class CreateUserDto {
   status: number;
   avatar: string;
 }
+
+export class LoginDto {
+  @IsNotEmpty()
+  username: string;
+
+  @IsNotEmpty()
+  password: string;
+}

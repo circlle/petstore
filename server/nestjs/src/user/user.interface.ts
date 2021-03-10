@@ -1,9 +1,10 @@
-export interface User {
-  id: number;
+export interface UserData {
   username: string;
   email: string;
-  password: string;
-  phone: string;
-  status: number;
+  token: string;
   avatar: string;
+}
+
+export interface UserRO {
+  user: UserData;
 }
