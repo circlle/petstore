@@ -1,11 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { CreateUserDto, LoginDto } from './user.dto';
 import { sign } from 'jsonwebtoken';
 import { SECRET } from '../../config';
-import { UserRO } from './user.interface';
+import { UserData, JWTInfo } from './user.interface';
 import { validate } from 'class-validator';
 import * as argon2 from 'argon2';
 
@@ -16,10 +16,7 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  findAll(): Promise<User[]> {
-    return this.userRepository.find();
-  }
-
+  // need verify
   async findOne({ username, password }: LoginDto): Promise<User> {
     const user = await this.userRepository.findOne({ username });
     if (!user) {
@@ -30,13 +27,17 @@ export class UserService {
     }
     return null;
   }
-
-  async findByName(userName: string): Promise<UserRO> {
-    const user = await this.userRepository.findOne({ username: userName });
-    return this.buildUserRO(user);
+  // need verify
+  async findByUserId(id: number): Promise<User> {
+    return await this.userRepository.findOne({ id });
   }
 
-  async create(user: CreateUserDto): Promise<UserRO> {
+  async findByName(userName: string): Promise<UserData> {
+    const user = await this.userRepository.findOne({ username: userName });
+    return this.buildUserData(user);
+  }
+
+  async create(user: CreateUserDto): Promise<UserData> {
     // check uniqueness of username/email
     const { username, email, password } = user;
     const maybeUser = await this.userRepository
@@ -68,12 +69,16 @@ export class UserService {
       );
     } else {
       const savedUser = await this.userRepository.save(newUser);
-      return this.buildUserRO(savedUser);
+      return this.buildUserData(savedUser);
     }
   }
 
-  async remove(id: string): Promise<void> {
-    await this.userRepository.delete(id);
+  async delete(email: string): Promise<DeleteResult> {
+    return await this.userRepository.delete(email);
+  }
+
+  public login(user: User) {
+    return this.generateJWT(user);
   }
 
   private generateJWT(user: User) {
@@ -81,25 +86,33 @@ export class UserService {
     const exp = new Date(today);
     exp.setDate(today.getDate() + 60);
 
-    return sign(
-      {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        exp: exp.getTime() / 1000,
-      },
-      SECRET,
-    );
-  }
-  public buildUserRO(user: User): UserRO {
-    const userRO: UserRO = {
-      user: {
-        username: user.username,
-        email: user.email,
-        token: this.generateJWT(user),
-        avatar: user.avatar,
-      },
+    const jwtInfo: JWTInfo = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      exp: exp.getTime() / 1000,
     };
-    return userRO;
+
+    return sign(jwtInfo, SECRET);
   }
+  public buildUserData(user: User): UserData {
+    const userData: UserData = {
+      username: user.username,
+      email: user.email,
+      avatar: user.avatar,
+      phone: user.phone,
+    };
+    return userData;
+  }
+  // public buildUserRO(user: User): UserRO {
+  //   const userRO: UserRO = {
+  //     user: {
+  //       username: user.username,
+  //       email: user.email,
+  //       token: this.generateJWT(user),
+  //       avatar: user.avatar,
+  //     },
+  //   };
+  //   return userRO;
+  // }
 }

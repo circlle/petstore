@@ -18,8 +18,8 @@ export class User {
   password: string;
 
   @Column({
-    default: '',
     unique: true,
+    default: '',
   })
   email: string;
 
@@ -29,7 +29,6 @@ export class User {
   phone: string;
 
   @Column({
-    type: 'tinyint',
     default: 1,
   })
   status: number;
