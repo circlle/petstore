@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
-import { AppController } from './app.controller';
 import { UserModule } from './user/user.module';
+import { CategoryModule } from './category/category.module';
 import credential from './credentials';
 
 @Module({
@@ -13,8 +13,12 @@ import credential from './credentials';
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
       logging: true,
+      extra: {
+        charset: 'utf8mb4_unicode_ci',
+      },
     }),
     UserModule,
+    CategoryModule,
   ],
   controllers: [],
   providers: [],
