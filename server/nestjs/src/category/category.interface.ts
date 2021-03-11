@@ -1,8 +1,6 @@
 import { Category } from './category.entity';
 
-export interface CategoryRO {
-  category: Category;
-}
+export type CategoryRO = Category;
 
 export interface CategoriesRO {
   categories: Category[];

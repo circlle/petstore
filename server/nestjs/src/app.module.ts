@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { UserModule } from './user/user.module';
 import { CategoryModule } from './category/category.module';
+import { PetModule } from './pet/pet.module';
 import credential from './credentials';
 
 @Module({
@@ -19,6 +20,7 @@ import credential from './credentials';
     }),
     UserModule,
     CategoryModule,
+    PetModule,
   ],
   controllers: [],
   providers: [],

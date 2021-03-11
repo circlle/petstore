@@ -8,7 +8,7 @@ export class CategoryController {
 
   @Get()
   async findAll(): Promise<CategoriesRO> {
-    const [categories, count] = await this.categoryService.findAll();
+    const { categories, count } = await this.categoryService.findAll();
     return {
       categories,
       count,
