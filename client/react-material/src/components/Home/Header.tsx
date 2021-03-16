@@ -1,45 +1,54 @@
 import React from "react";
 import {
-    Avatar,
-    createStyles,
-    makeStyles
+    AppBar,
+    createStyles, IconButton,
+    makeStyles, Paper, Toolbar, Typography
 } from "@material-ui/core";
-import logo from "../../images/logo.png";
-import {MenuOpenOutlined} from "@material-ui/icons";
+import { Menu as MenuIcon } from '@material-ui/icons'
 
 const useStyles = makeStyles((theme) =>
     createStyles({
-        header: {
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            fontFamily: "Source Code Pro",
-            alignItems: "center",
+        root: {
+            flexGrow: 1
         },
-        left: {
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
+        menuButton: {
+            marginRight: theme.spacing(2)
         },
-        icon: {
-            color: theme.palette.primary.main
-        }
+        title: {
+            flexGrow: 1,
+            display: 'block',
+            // [theme.breakpoints.up('sm')]: {
+            //     display: 'block',
+            // },
+        },
     })
 );
 
 function Header() {
     const classes = useStyles();
+
     return (
-        <header className={classes.header}>
-            <div className={classes.left}>
-                <Avatar alt={"logo"} src={logo}/>
-                <span>Sprite82</span>
-            </div>
-            <div>
-                <MenuOpenOutlined className={classes.icon}/>
-            </div>
-        </header>
-    );
+        <div className={classes.root}>
+            <Paper>
+                <AppBar position={"static"} color={"transparent"} elevation={0}>
+                    <Toolbar>
+                        <IconButton
+                            edge={"start"}
+                            className={classes.menuButton}
+                            color={"inherit"}
+                            aria-label={"open drawer"}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography className={classes.title} variant="h6" noWrap>
+                            Dora Shop
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <div>search bar</div>
+            </Paper>
+        </div>
+    )
 }
 
 export default Header;
