@@ -45,7 +45,7 @@ function CategoryHeader() {
       <Toolbar>
         <Avatar
           className={`${classes.avatar} ${classes.orange} ${classes.small}`}
-          variant={"circle"}
+          variant={"circular"}
         >
           C
         </Avatar>
