@@ -6,17 +6,22 @@ import {
   HttpException,
   Param,
   Post,
-  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto, LoginDto } from './user.dto';
 import { UserData } from './user.interface';
+import { DeleteResult } from 'typeorm';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('user')
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
 
   @Post()
+  /*
+   * create a new user
+   */
   async createUser(@Body() createUserDto: CreateUserDto): Promise<UserData> {
     const user = await this.userService.create(createUserDto);
     return user;
@@ -29,7 +34,7 @@ export class UserController {
   }
 
   @Delete(':username')
-  async delete(@Param('username') username: string) {
+  async delete(@Param('username') username: string): Promise<DeleteResult> {
     return await this.userService.delete(username);
   }
 

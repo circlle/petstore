@@ -6,10 +6,10 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   password: string;
-  email: string;
-  phone: string;
-  status: number;
-  avatar: string;
+  email?: string;
+  phone?: string;
+  status?: number;
+  avatar?: string;
 }
 
 export class LoginDto {
