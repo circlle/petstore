@@ -1,5 +1,5 @@
-import React, { useEffect, useLayoutEffect, useRef } from "react";
-import { createStyles, makeStyles, Paper } from "@material-ui/core";
+import React, { useCallback, useEffect, useRef } from "react";
+import { createStyles, makeStyles } from "@material-ui/core";
 import useGallery from "../../hooks/useGallery";
 
 type GalleryItemType = {
@@ -57,28 +57,28 @@ function Carousel() {
   const stopTransition = () => (transitionRef.current = false);
   const recoverTransition = () => (transitionRef.current = true);
 
-  const setIndexWithoutTransitionAfterDelay = (
-    index: number,
-    delay: number = 500
-  ) => {
-    setTimeout(() => {
-      stopTransition();
-      setIndex(index);
-      recoverTransition();
-    }, delay);
-  };
+  const setIndexWithoutTransitionAfterDelay = useCallback(
+    (index: number, delay: number = 500) => {
+      setTimeout(() => {
+        stopTransition();
+        setIndex(index);
+        recoverTransition();
+      }, delay);
+    },
+    [setIndex]
+  );
 
   useEffect(() => {
     if (currentIndex === galleryList.length - 1) {
       setIndexWithoutTransitionAfterDelay(1);
     }
-  }, [currentIndex === galleryList.length - 1]);
+  }, [currentIndex, galleryList.length, setIndexWithoutTransitionAfterDelay]);
 
   useEffect(() => {
     if (currentIndex === 0) {
       setIndexWithoutTransitionAfterDelay(galleryList.length - 2);
     }
-  }, [currentIndex === 0]);
+  }, [currentIndex, galleryList.length, setIndexWithoutTransitionAfterDelay]);
 
   return (
     <div className={classes.root}>

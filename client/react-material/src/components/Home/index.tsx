@@ -1,11 +1,10 @@
 import React from "react";
 import Header from "./Header";
 import Carousel from "./Carousel";
-import Search from "./Search";
-import Category from "./Category";
+import Categories from "./Categories";
 import { makeStyles, createStyles } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     header: {},
     search: {},
@@ -15,7 +14,6 @@ const useStyles = makeStyles((theme) =>
       marginTop: ".5rem",
     },
     root: {
-      // padding: "1rem",
       background: "#f9f9f9",
     },
   })
@@ -24,7 +22,6 @@ const useStyles = makeStyles((theme) =>
 function Home() {
   const classes = useStyles();
   return (
-    // <Paper>
     <div className={classes.root}>
       <div className={`${classes.header}`}>
         <Header />
@@ -32,11 +29,10 @@ function Home() {
       <div className={`${classes.carousel} ${classes.marginTopHalf}`}>
         <Carousel />
       </div>
-      {/*<div className={`${classes.category} ${classes.paddingTop}`}>*/}
-      {/*    <Category/>*/}
-      {/*</div>*/}
+      <div className={`${classes.category}`}>
+        <Categories />
+      </div>
     </div>
-    // </Paper>
   );
 }
 
