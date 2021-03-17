@@ -1,51 +1,66 @@
 import React from "react";
-import {createStyles, Grid, makeStyles, TextField} from "@material-ui/core";
-import {SearchOutlined} from "@material-ui/icons";
-import {common} from "@material-ui/core/colors";
+import {
+  createStyles,
+  fade,
+  Grid,
+  InputBase,
+  makeStyles,
+  Toolbar,
+} from "@material-ui/core";
+import { Search as SearchIcon } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) =>
-    createStyles({
-        root: {
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-        },
-        textField: {
-            borderWidth: 0,
-            outline: 'none'
-        },
-        searchButtonWrapper: {},
-        searchButton: {
-            background: theme.palette.primary.main,
-            borderRadius: "50%",
-            color: common.white,
-            border: `.3rem solid ${theme.palette.primary.main}`,
-            boxSizing: 'content-box'
-        }
-    })
+  createStyles({
+    root: {
+      marginTop: theme.spacing(2),
+    },
+    search: {
+      position: "relative",
+      boxShadow: theme.shadows[4],
+      borderRadius: theme.shape.borderRadius,
+      marginLeft: 0,
+      width: "100%",
+    },
+    searchIcon: {
+      padding: theme.spacing(0, 2),
+      height: "100%",
+      position: "absolute",
+      pointerEvents: "none",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    inputRoot: {
+      color: "inherit",
+      width: "100%",
+    },
+    inputInput: {
+      padding: theme.spacing(1, 1, 1, 0),
+      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+      width: "100%",
+    },
+  })
 );
 
 function Search() {
-    const classes = useStyles();
-    return (
-        <div className={classes.root}>
-            <Grid container spacing={1} alignItems="center">
-                <Grid item xs>
-                    <TextField
-                        size={"small"}
-                        fullWidth
-                        variant={"outlined"}
-                        type={'search'}
-                        label=""
-                    />
-                </Grid>
-                <Grid item className={classes.searchButtonWrapper}>
-                    <SearchOutlined className={classes.searchButton} />
-                </Grid>
-            </Grid>
+  const classes = useStyles();
+  return (
+    <Toolbar disableGutters className={classes.root}>
+      <div className={classes.search}>
+        <div className={classes.searchIcon}>
+          <SearchIcon color={"primary"} />
         </div>
-    );
+        <InputBase
+          placeholder={"Search..."}
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput,
+          }}
+          inputProps={{ "aria-label": "search" }}
+        />
+      </div>
+    </Toolbar>
+  );
 }
 
 export default Search;

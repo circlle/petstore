@@ -1,54 +1,58 @@
 import React from "react";
 import {
-    AppBar,
-    createStyles, IconButton,
-    makeStyles, Paper, Toolbar, Typography
+  AppBar,
+  createStyles,
+  Grid,
+  makeStyles,
+  Paper,
+  Toolbar,
+  Typography,
 } from "@material-ui/core";
-import { Menu as MenuIcon } from '@material-ui/icons'
+import { AccountCircleOutlined, Menu as MenuIcon } from "@material-ui/icons";
+import Search from "./Search";
 
 const useStyles = makeStyles((theme) =>
-    createStyles({
-        root: {
-            flexGrow: 1
-        },
-        menuButton: {
-            marginRight: theme.spacing(2)
-        },
-        title: {
-            flexGrow: 1,
-            display: 'block',
-            // [theme.breakpoints.up('sm')]: {
-            //     display: 'block',
-            // },
-        },
-    })
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    paper: {
+      padding: "1rem",
+    },
+    logo: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+      display: "block",
+    },
+    searchWrapper: {},
+  })
 );
 
 function Header() {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    return (
-        <div className={classes.root}>
-            <Paper>
-                <AppBar position={"static"} color={"transparent"} elevation={0}>
-                    <Toolbar>
-                        <IconButton
-                            edge={"start"}
-                            className={classes.menuButton}
-                            color={"inherit"}
-                            aria-label={"open drawer"}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography className={classes.title} variant="h6" noWrap>
-                            Dora Shop
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-                <div>search bar</div>
-            </Paper>
-        </div>
-    )
+  return (
+    <div className={classes.root}>
+      <Paper className={classes.paper} elevation={4}>
+        <AppBar position={"static"} color={"transparent"} elevation={0}>
+          <Toolbar disableGutters>
+            <AccountCircleOutlined
+              className={classes.logo}
+              color={"primary"}
+              fontSize={"large"}
+            />
+            <Typography className={classes.title} variant="h6" noWrap>
+              Dora Shop
+            </Typography>
+            <MenuIcon />
+          </Toolbar>
+        </AppBar>
+        <Search />
+      </Paper>
+    </div>
+  );
 }
 
 export default Header;
