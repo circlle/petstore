@@ -30,10 +30,17 @@ const useStyles = makeStyles(() => ({
     maxWidth: 500,
   },
 }));
+
 function BottomBar() {
   const classes = useStyles();
   const location = useLocation();
   const [indicator, setIndicator] = useState(location.pathname);
+
+  const inTabs = TabConfigList.some(
+    (config) => config.path === location.pathname
+  );
+  if (!inTabs) return null;
+
   return (
     <AppBar position={"fixed"} color={"primary"} className={classes.appBar}>
       <Paper square className={classes.root}>

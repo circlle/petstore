@@ -20,6 +20,11 @@ export class UserData {
   avatar: string;
 }
 
+export class LoginResult {
+  @ApiProperty()
+  token: string;
+}
+
 export class JWTInfo {
   @ApiProperty()
   id: number;

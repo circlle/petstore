@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto, LoginDto } from './user.dto';
-import { UserData } from './user.interface';
+import { LoginResult, UserData } from './user.interface';
 import { DeleteResult } from 'typeorm';
 import {
   ApiHeader,
@@ -19,7 +19,6 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { FailedResponseDto } from '../core/generic.dto';
-import * as Http from 'http';
 
 @ApiTags('user')
 @ApiResponse({
@@ -74,13 +73,18 @@ export class UserController {
     return await this.userService.delete(username);
   }
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'authorization success',
+    type: LoginResult,
+  })
   @Post('/login')
-  async login(@Body() body: LoginDto): Promise<string> {
+  async login(@Body() body: LoginDto): Promise<LoginResult> {
     const _user = await this.userService.findOne(body);
 
     const errors = { User: ' not found' };
     if (!_user) throw new HttpException({ errors }, 400);
 
-    return this.userService.login(_user);
+    return { token: this.userService.login(_user) };
   }
 }

@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "restapi-schema": ["./src/generated-types"]
+    }
+  }
+}
