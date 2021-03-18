@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
 import * as argon2 from 'argon2';
 
 @Entity()

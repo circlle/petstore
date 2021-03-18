@@ -1,16 +1,22 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UserData {
-  @ApiProperty()
+  @ApiProperty({ example: 'user1', description: 'Name of the user' })
   username: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: 'user@gmail.com', description: 'Email of the user' })
   email: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    example: '12345678901',
+    description: 'Phone number of the user',
+  })
   phone: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    example: 'http://xxx.xxx.jpeg',
+    description: 'Avatar of the user',
+  })
   avatar: string;
 }
 

@@ -6,14 +6,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-
-export type ErrorResponse = {
-  statusCode: number;
-  data: { error: string };
-  message: string;
-  code: 1;
-  url: string;
-};
+import { FailedResponseDto as ErrorResponse } from './generic.dto';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {

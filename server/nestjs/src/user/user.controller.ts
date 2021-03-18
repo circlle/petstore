@@ -6,33 +6,69 @@ import {
   HttpException,
   Param,
   Post,
+  HttpStatus,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto, LoginDto } from './user.dto';
 import { UserData } from './user.interface';
 import { DeleteResult } from 'typeorm';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  ApiHeader,
+  ApiNotFoundResponse,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { FailedResponseDto } from '../core/generic.dto';
+import * as Http from 'http';
 
 @ApiTags('user')
+@ApiResponse({
+  status: HttpStatus.UNAUTHORIZED,
+  description: 'UNAUTHORIZED',
+  type: FailedResponseDto,
+})
+@ApiHeader({ name: 'Authorization', description: 'to verify' })
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
 
+  @ApiResponse({
+    status: 201,
+    description: 'The record has been successfully created.',
+    type: UserData,
+  })
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: 'all ready exist a user with same name',
+    type: FailedResponseDto,
+  })
   @Post()
-  /*
-   * create a new user
-   */
   async createUser(@Body() createUserDto: CreateUserDto): Promise<UserData> {
     const user = await this.userService.create(createUserDto);
+    if (!user) {
+      throw new HttpException("can't create this user", HttpStatus.CONFLICT);
+    }
     return user;
   }
 
+  @ApiNotFoundResponse({
+    description: 'Not found',
+    type: FailedResponseDto,
+  })
   @Get(':username')
   async findMe(@Param('username') username: string): Promise<UserData> {
     const maybeUser = await this.userService.findByName(username);
+    if (!maybeUser) {
+      throw new HttpException('user not found', HttpStatus.NOT_FOUND);
+    }
     return maybeUser;
   }
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'deleted',
+    type: UserData,
+  })
   @Delete(':username')
   async delete(@Param('username') username: string): Promise<DeleteResult> {
     return await this.userService.delete(username);

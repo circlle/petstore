@@ -22,10 +22,12 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
+    "prestart": "yarn generate-fetcher",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "generate-fetcher": "restful-react import --config restful-react.config.js"
   },
   "eslintConfig": {
     "extends": [
