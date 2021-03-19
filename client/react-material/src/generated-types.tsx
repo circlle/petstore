@@ -54,6 +54,15 @@ export interface LoginResult {
   token: string;
 }
 
+export interface SuccessResponseDto {
+  data: {[key: string]: any};
+  /**
+   * when success, the code field will be 0
+   */
+  code: number;
+  message: string;
+}
+
 
 export interface UserControllerFindMePathParams {
   username: string

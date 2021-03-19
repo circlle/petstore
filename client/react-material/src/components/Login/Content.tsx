@@ -15,10 +15,10 @@ import {
   VisibilityOff,
 } from "@material-ui/icons";
 import { useState } from "react";
-import { useMutate } from "restful-react";
 import { LoginResult } from "restapi-schema";
-import { FailedResponseDto } from "../../generated-types";
-import useLoad from "../../hooks/useFetchRest";
+import useLoad, { TOKEN_FIELD } from "../../hooks/useFetchRest";
+import { useHistory } from "react-router";
+import Cookies from "js-cookie";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -46,20 +46,20 @@ const useStyles = makeStyles((theme) =>
 );
 function Content() {
   const classes = useStyles();
+  const history = useHistory();
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const { run } = useLoad({
-    path: "/user/login",
-    method: "POST",
-  });
+  const { load, loading } = useLoad();
   const onClickLogin = async () => {
-    try {
-      const data = await run({ username, password });
-      console.log("data", data);
-    } catch (err) {
-      const error = err as FailedResponseDto;
-      console.log("error", err);
+    const data = await load<LoginResult>({
+      path: "/user/login",
+      method: "POST",
+      body: { username, password },
+    });
+    if (data) {
+      Cookies.set(TOKEN_FIELD, data.token);
+      history.goBack();
     }
   };
   return (
